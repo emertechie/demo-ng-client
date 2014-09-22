@@ -1,0 +1,13 @@
+.ticket-list {
+  .row-pagination {
+    text-align: center;
+  }
+
+  .pagination {
+    margin: 0;
+    min-width: 225px;
+    a {
+      color: #333;
+    }
+  }
+}

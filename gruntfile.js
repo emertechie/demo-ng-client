@@ -37,6 +37,7 @@ module.exports = function(grunt) {
             options: {
                 reporter: require('jshint-stylish'),
                 laxbreak: true,
+                strict: true,
                 globals: {
                     jQuery: true
                 }
@@ -45,12 +46,16 @@ module.exports = function(grunt) {
 
         watch: {
             sass: {
-                files: ['<%= sassDir %>/**/*.scss', '<%= appDir %>/components/**/*.scss'],
+                files: ['<%= sassDir %>/**/*.scss', '<%= appDir %>/parts/**/*.scss'],
                 tasks: ['sass:dev'],
                 options: {
                     spawn: false,
                     livereload: true
                 }
+            },
+            jshint: {
+                files: ['<%= appDir %>/*.js', '<%= appDir %>/parts/**/*.js'],
+                tasks: ['jshint']
             },
             other: {
                 files: ['<%= appDir %>/**/*.html', '<%= appDir %>/**/*.js'],

@@ -1,3 +1,5 @@
-.foo {
-  font-weight: bold;
+@import "../parts/ticket/list/list";
+
+body {
+  padding-top: 70px; /* Required for bootstrap fixed-top navbar */
 }

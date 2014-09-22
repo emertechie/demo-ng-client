@@ -1,0 +1,30 @@
+<div class="container ticket-list">
+
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Status</th>
+                    <th>Title</th>
+                    <th>Assigned To</th>
+                </tr>
+                </thead>
+                <tr ng-repeat="ticket in page.pageData">
+                    <td>{{ticket.number}}</td>
+                    <td>{{ticket.status}}</td>
+                    <td>{{ticket.title}}</td>
+                    <td>{{ticket.assignedTo}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row row-pagination">
+        <pagination total-items="page.totalCount" ng-model="pageNumber" direction-links="false"
+                    boundary-links="true" rotate="false" max-size="5" class="pagination-sm"
+                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+    </div>
+
+</div>
