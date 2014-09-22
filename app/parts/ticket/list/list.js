@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var module = angular.module('ticketList', ['ngRoute', 'ui.bootstrap']);
+    var module = angular.module('ticketList', ['data', 'ngRoute', 'ui.bootstrap']);
 
     module.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/tickets', {
@@ -13,66 +13,28 @@
     module.controller('TicketListCtrl', ['$scope', 'ticketsDataStore', function($scope, ticketsDataStore) {
         var PAGE_SIZE = 10;
 
-        // This gets updated by the pager control:
         $scope.pageNumber = 1;
+        $scope.order = { 'title': 'asc' };
 
         $scope.$watch('pageNumber', function(pageNumber) {
-            $scope.page = ticketsDataStore.getPage(PAGE_SIZE, pageNumber);
-            $scope.pageNumber = $scope.page.pageNumber;
+            loadData(pageNumber, $scope.order);
         });
-    }]);
 
-    module.factory('ticketsDataStore', function() {
-        var MAX_PAGE_SIZE = 50;
-
-        return {
-            getPage: function(pageSize, page) {
-                pageSize = pageSize || MAX_PAGE_SIZE;
-                page = page || 1;
-
-                var startIndex = pageSize * (page - 1);
-
-                // Set up some dummy data:
-                var totalCount = 80;
-                var tickets = createDummyData(startIndex, pageSize, totalCount);
-
-                var furthestItemVisible = pageSize * page;
-
-                var pageData = {
-                    pageNumber: page,
-                    pageSize: pageSize,
-                    pageData: tickets,
-                    totalCount: totalCount,
-                    hasPrevPage: page > 1,
-                    hasNextPage: furthestItemVisible < totalCount
-                };
-                console.log('pageData', pageData);
-                return pageData;
-            }
+        $scope.orderBy = function(orderProp) {
+            loadData($scope.pageNumber, getNewOrder($scope.order, orderProp));
         };
-    });
 
-    function createDummyData(startIndex, pageSize, totalCount) {
-        var count = 0;
-        var tickets = [];
-        for (var i = startIndex; i < totalCount; i++) {
-            var number = i + 1;
-
-            tickets.push({
-                id: i,
-                number: 'Ticket#' + number,
-                status: 'open',
-                title: 'Ticket ' + number,
-                description: 'Description for ticket ' + number,
-                assignedTo: null,
-                created: Date.now(),
-                updated: null
-            });
-
-            if (++count === pageSize) {
-                break;
-            }
+        function loadData(pageNumber, order) {
+            $scope.page = ticketsDataStore.getPage(PAGE_SIZE, pageNumber, order);
+            $scope.pageNumber = pageNumber;
+            $scope.order = order;
         }
-        return tickets;
-    }
+
+        function getNewOrder(orderObj, orderProp) {
+            var existing = (orderObj || {})[orderProp];
+            var newOrderObj = {};
+            newOrderObj[orderProp] = (existing === 'asc' ? 'desc' : 'asc');
+            return newOrderObj;
+        }
+    }]);
 }());
