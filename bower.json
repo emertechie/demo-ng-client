@@ -1,0 +1,17 @@
+{
+  "name": "ng-client",
+  "version": "0.0.1",
+  "authors": [
+    "Andrew Smith <emertechie@gmail.com>"
+  ],
+  "main": "app/index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {}
+}
