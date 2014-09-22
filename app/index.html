@@ -10,9 +10,14 @@
     <meta name="description" content="A simple demo app using Angular and Bootstrap">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- For production:
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">-->
+    -->
 
+    <!-- For development -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="themes/sandstone/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
 
     <!-- TODO: Use a custom Modernizr build for production. This one contains all tests -->
@@ -24,7 +29,7 @@
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
