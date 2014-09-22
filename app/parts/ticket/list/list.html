@@ -5,12 +5,18 @@
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th>Number</th>
-                    <th>Status</th>
+                    <th>
+                        <a ng-click="orderBy('number')">Number</a>
+                    </th>
+                    <th>
+                        <a ng-click="orderBy('status')">Status</a>
+                    </th>
                     <th>
                         <a ng-click="orderBy('title')">Title</a>
                     </th>
-                    <th>Assigned To</th>
+                    <th>
+                        <a ng-click="orderBy('assignedTo')">Assigned To</a>
+                    </th>
                 </tr>
                 </thead>
                 <tr ng-repeat="ticket in page.pageData">
