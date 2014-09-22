@@ -3,7 +3,7 @@
 
     var app = angular.module('demoApp', [
         'ngRoute',
-        'ticketList'
+        'ticket'
     ]);
 
     app.config(['$routeProvider', function($routeProvider) {

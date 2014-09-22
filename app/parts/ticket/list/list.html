@@ -20,7 +20,9 @@
                 </tr>
                 </thead>
                 <tr ng-repeat="ticket in page.pageData">
-                    <td>{{ticket.number}}</td>
+                    <td>
+                        <a href="#/ticket/{{ticket.number}}">{{ticket.number}}</a>
+                    </td>
                     <td>{{ticket.status}}</td>
                     <td>{{ticket.title}}</td>
                     <td>{{ticket.assignedTo}}</td>

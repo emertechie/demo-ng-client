@@ -13,19 +13,40 @@
         }
 
         if (!localStorage[TICKETS_DATA_KEY]) {
-            localStorage[TICKETS_DATA_KEY] = JSON.stringify(createDummyTicketData(100));
+            setFakeData(TICKETS_DATA_KEY, createDummyTicketData(100));
         }
     });
 
-    module.factory('ticketsDataStore', function() {
+    module.factory('ticketsDataStore', ['$timeout', '$q', function($timeout, $q) {
         var MAX_PAGE_SIZE = 50;
 
         return {
+            get: function(ticketNumber) {
+                var fakeData = getFakeData(TICKETS_DATA_KEY);
+                var ticket = _.find(fakeData, function(item) {
+                    return item.number === ticketNumber;
+                });
+                return simulateDelay(ticket);
+            },
+            update: function(ticket) {
+                var fakeData = getFakeData(TICKETS_DATA_KEY);
+                var existingIndex = _.findIndex(fakeData, function(item) {
+                    return item.number === ticket.number;
+                });
+                var updated = null;
+                if (existingIndex !== -1) {
+                    updated = _.clone(ticket);
+                    updated.updated = Date.now();
+                    fakeData[existingIndex] = updated;
+                    setFakeData(TICKETS_DATA_KEY, fakeData);
+                }
+                return simulateDelay(updated);
+            },
             getPage: function(pageSize, page, order) {
                 pageSize = pageSize || MAX_PAGE_SIZE;
                 page = page || 1;
 
-                var fakeData = JSON.parse(localStorage[TICKETS_DATA_KEY] || "[]");
+                var fakeData = getFakeData(TICKETS_DATA_KEY);
                 if (order) {
                     fakeData = sortData(fakeData, order);
                 }
@@ -42,17 +63,33 @@
 
                 var furthestItemVisible = pageSize * page;
 
-                return {
+                return simulateDelay({
                     pageNumber: page,
                     pageSize: pageSize,
                     pageData: pageData,
                     totalCount: fakeData.length,
                     hasPrevPage: page > 1,
                     hasNextPage: furthestItemVisible < fakeData.length
-                };
+                });
             }
         };
-    });
+
+        function simulateDelay(result) {
+            var deferred = $q.defer();
+            $timeout(function() {
+                deferred.resolve(result);
+            }, 100);
+            return deferred.promise;
+        }
+    }]);
+
+    function getFakeData(key) {
+        return JSON.parse(localStorage[key] || "[]");
+    }
+
+    function setFakeData(key, data) {
+        localStorage[key] = JSON.stringify(data);
+    }
 
     function sortData(data, order) {
         var orderPropName;
@@ -74,7 +111,7 @@
         for (var i = 1; i <= count; i++) {
             tickets.push({
                 id: i,
-                number: 'Ticket#' + i,
+                number: 'tkt-' + i,
                 status: 'open',
                 title: 'Ticket ' + i,
                 description: 'Description for ticket ' + i,
