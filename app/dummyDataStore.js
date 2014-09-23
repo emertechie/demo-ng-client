@@ -135,6 +135,8 @@
     }
 
     function generateTicketNumber(i) {
-        return 'tkt-' + i;
+        var pad = '000';
+        var padded = (pad + i).substr(-pad.length);
+        return 'tkt-' + padded;
     }
 }());
