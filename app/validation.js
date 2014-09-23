@@ -32,7 +32,7 @@
                     this.callbacks.push(callback);
                 }.bind(this);
 
-                this.modelValidityChanged = function(ngModel) {
+                this.modelChanged = function(ngModel) {
                     _.each(this.callbacks, function(callback) {
                         callback(ngModel.$valid, ngModel);
                     });
@@ -40,7 +40,7 @@
             },
             link: function(scope, el, attrs, ctrl) {
                 ctrl.onValidityChanged(function(isValid, ngModel) {
-                    var showGroupError = !isValid /* && ngModel.blurred &&*/;
+                    var showGroupError = !isValid  && ngModel.$blurred;
 
                     if (showGroupError) {
                         el.addClass('has-error');
@@ -64,7 +64,17 @@
                 scope.$watch(function() {
                     return ngModel.$valid;
                 }, function() {
-                    validationUiGroup.modelValidityChanged(ngModel);
+                    validationUiGroup.modelChanged(ngModel);
+                });
+
+                el.on('blur', function() {
+                    ngModel.$blurred = true;
+                    validationUiGroup.modelChanged(ngModel);
+                });
+
+                el.on('focus', function() {
+                    ngModel.$blurred = false;
+                    validationUiGroup.modelChanged(ngModel);
                 });
             }
         };
