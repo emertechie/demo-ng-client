@@ -28,6 +28,17 @@
                 });
                 return simulateDelay(ticket);
             },
+            add: function(ticket) {
+                if (ticket.number) {
+                    throw new Error('Attempted to add an existing ticket');
+                }
+                var fakeData = getFakeData(TICKETS_DATA_KEY);
+                ticket.number = generateTicketNumber(fakeData.length);
+                fakeData.push(ticket);
+                setFakeData(TICKETS_DATA_KEY, fakeData);
+                return simulateDelay(ticket);
+
+            },
             update: function(ticket) {
                 var fakeData = getFakeData(TICKETS_DATA_KEY);
                 var existingIndex = _.findIndex(fakeData, function(item) {
@@ -111,7 +122,7 @@
         for (var i = 1; i <= count; i++) {
             tickets.push({
                 id: i,
-                number: 'tkt-' + i,
+                number: generateTicketNumber(i),
                 status: 'open',
                 title: 'Ticket ' + i,
                 description: 'Description for ticket ' + i,
@@ -121,5 +132,9 @@
             });
         }
         return tickets;
+    }
+
+    function generateTicketNumber(i) {
+        return 'tkt-' + i;
     }
 }());

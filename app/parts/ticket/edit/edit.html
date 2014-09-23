@@ -2,7 +2,10 @@
     <div class="well">
         <form class="form-horizontal" role="form" name="form" novalidate validation-ui-form ng-submit="save()">
             <fieldset>
-                <legend>Ticket: {{ticket.number}}</legend>
+                <legend>
+                    <span ng-show="ticket.number">Ticket: {{ticket.number}}</span>
+                    <span ng-show="!ticket.number">New Ticket</span>
+                </legend>
                 <div class="form-group">
                     <label for="inputStatusOpen" class="col-lg-2 control-label">Status</label>
                     <div class="col-lg-8">
