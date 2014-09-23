@@ -15,6 +15,8 @@
     }]);
 
     module.controller('TicketCtrl', ['$scope', '$routeParams', '$location', 'ticketsDataStore', function($scope, $routeParams, $location, ticketsDataStore) {
+        $scope.isNewTicket = !$routeParams.number;
+
         if ($routeParams.number) {
             ticketsDataStore.get($routeParams.number)
                 .then(function(ticket) {
@@ -22,6 +24,8 @@
                 }, function(err) {
                     // todo: error handling
                 });
+        } else {
+            $scope.ticket = ticketsDataStore.create();
         }
 
         $scope.save = function() {
@@ -29,13 +33,12 @@
                 return;
             }
 
-            if ($scope.ticket.number) {
-                ticketsDataStore.update($scope.ticket)
-                    .then(function(updated) {
-                        if (updated) {
-                            $scope.ticket = updated;
-                            // todo: show success message
-                            // todo: navigate back ?
+            if ($scope.isNewTicket) {
+                ticketsDataStore.add($scope.ticket)
+                    .then(function(added) {
+                        if (added) {
+                            var newPath = $location.path() + '/' + added.number;
+                            $location.path(newPath);
                         } else {
                             // todo: show error message
                         }
@@ -43,11 +46,11 @@
                         // todo: show safe error message
                     });
             } else {
-                ticketsDataStore.add($scope.ticket)
-                    .then(function(added) {
-                        if (added) {
-                            var newPath = $location.path() + '/' + added.number;
-                            $location.path(newPath);
+                ticketsDataStore.update($scope.ticket)
+                    .then(function(updated) {
+                        if (updated) {
+                            $scope.ticket = updated;
+                            // todo: show success message
                         } else {
                             // todo: show error message
                         }

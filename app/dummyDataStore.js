@@ -21,6 +21,11 @@
         var MAX_PAGE_SIZE = 50;
 
         return {
+            create: function() {
+                return {
+                    status: 'open'
+                };
+            },
             get: function(ticketNumber) {
                 var fakeData = getFakeData(TICKETS_DATA_KEY);
                 var ticket = _.find(fakeData, function(item) {
