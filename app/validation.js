@@ -14,7 +14,7 @@
                 el.on('submit', function() {
                     scope.$apply(function() {
                         formCtrl.$submitted = true;
-                        scope.$broadcast('validation-ui.form-submitted');
+                        scope.$broadcast('validation-ui.form-submitted', formCtrl);
                     });
                 });
             }
@@ -24,14 +24,22 @@
     module.directive('validationUiGroup', function() {
         return {
             restrict: 'A',
-            controller: ['$scope', function($scope) {
-                this.modelValidityChanged = function(ngModel) {
-                    $scope.$broadcast('validation-ui.change', ngModel.$valid, ngModel);
-                };
-            }],
-            link: function(scope, el) {
-                scope.$on('validation-ui.change', function(e, isValid, ngModel) {
+            scope: true,
+            controller: function() {
+                this.callbacks = [];
 
+                this.onValidityChanged = function(callback) {
+                    this.callbacks.push(callback);
+                }.bind(this);
+
+                this.modelValidityChanged = function(ngModel) {
+                    _.each(this.callbacks, function(callback) {
+                        callback(ngModel.$valid, ngModel);
+                    });
+                }.bind(this);
+            },
+            link: function(scope, el, attrs, ctrl) {
+                ctrl.onValidityChanged(function(isValid, ngModel) {
                     var showGroupError = !isValid /* && ngModel.blurred &&*/;
 
                     if (showGroupError) {
@@ -44,7 +52,7 @@
         };
     });
 
-     module.directive('validationUiModel', function() {
+    module.directive('validationUiModel', function() {
         return {
             restrict: 'A',
             require: ['ngModel', '^validationUiGroup'],
@@ -58,8 +66,6 @@
                 }, function() {
                     validationUiGroup.modelValidityChanged(ngModel);
                 });
-
-
             }
         };
     });
@@ -67,24 +73,36 @@
     module.directive('validationUiError', function() {
         return {
             restrict: 'A',
-            link: function(scope, el) {
+            require: '^validationUiGroup',
+            link: function(scope, el, attrs, validationUiGroup) {
 
-                var formSubmitFlag = false;
-                var valid;
+                var showReason = attrs.validationUiError || 'required';
 
-                scope.$on('validation-ui.form-submitted', function() {
-                    formSubmitFlag = true;
-                    updateVisibility(valid === false);
-                });
+                var formSubmittedFlag;
+                var isValid;
+                var modelCtrl;
 
-                scope.$on('validation-ui.change', function(e, isValid) {
-                    valid = isValid;
-
-                    if (isValid === true) {
-                        formSubmitFlag = false;
+                scope.$on('validation-ui.form-submitted', function(e, form) {
+                    // Note: Don't set flag on a successful form submit
+                    if (!isValid) {
+                        formSubmittedFlag = true;
                     }
 
-                    updateVisibility(!isValid && formSubmitFlag);
+                    var controls = form.$error[showReason] || [];
+                    var shouldShowError = controls.indexOf(modelCtrl) !== -1;
+                    updateVisibility(shouldShowError);
+                });
+
+                validationUiGroup.onValidityChanged(function(valid, ngModel) {
+                    isValid = valid;
+                    modelCtrl = ngModel;
+
+                    if (valid) {
+                        // reset until next submit
+                        formSubmittedFlag = false;
+                    }
+
+                    updateVisibility(formSubmittedFlag && valid === false);
                 });
 
                 function updateVisibility(shouldShow) {

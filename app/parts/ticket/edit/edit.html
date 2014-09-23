@@ -19,16 +19,17 @@
                     <div class="col-lg-8">
                         <input type="text" name="title" ng-model="ticket.title" required ng-minlength="3" ng-maxlength="50" validation-ui-model
                                class="form-control" id="inputTitle" placeholder="Title" autocomplete="off">
-                        <p validation-ui-error class="help-block">Title is required.</p>
-                        <!--<p validation-show-error="required" class="help-block">Title is required.</p>-->
-                        <!--<p validation-show-error="minlength" class="help-block">Title is too short.</p>-->
-                        <!--<p validation-show-error="maxlength" class="help-block">Title is too long.</p>-->
+
+                        <p validation-ui-error="required" class="help-block">Title is required.</p>
+                        <p validation-ui-error="minlength" class="help-block">Please enter at least 3 characters.</p>
+                        <p validation-ui-error="maxlength" class="help-block">Title is too long.</p>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" validation-ui-group>
                     <label for="inputDescription" class="col-lg-2 control-label">Description</label>
                     <div class="col-lg-8">
-                        <textarea class="form-control" ng-model="ticket.description" rows="3" id="inputDescription"></textarea>
+                        <textarea class="form-control" ng-model="ticket.description" required rows="3" id="inputDescription" validation-ui-model></textarea>
+                        <p validation-ui-error class="help-block">Description is required.</p>
                     </div>
                 </div>
                 <div class="form-group">
