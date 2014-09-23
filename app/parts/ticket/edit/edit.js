@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var module = angular.module('ticketEdit', ['data', 'ngRoute']);
+    var module = angular.module('ticketEdit', ['data', 'ngRoute', 'validation']);
 
     module.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/ticket/:number', {
@@ -19,6 +19,13 @@
             });
 
         $scope.save = function() {
+            if (!$scope.form.$valid) {
+                console.log('Not valid');
+
+
+                return;
+            }
+
             console.log('Saving');
 
             ticketsDataStore.update($scope.ticket)
