@@ -24,11 +24,10 @@
     module.directive('validationUiGroup', function() {
         return {
             restrict: 'A',
-            scope: true,
             controller: function() {
                 this.callbacks = [];
 
-                this.onValidityChanged = function(callback) {
+                this.onModelChanged = function(callback) {
                     this.callbacks.push(callback);
                 }.bind(this);
 
@@ -39,15 +38,26 @@
                 }.bind(this);
             },
             link: function(scope, el, attrs, ctrl) {
-                ctrl.onValidityChanged(function(isValid, ngModel) {
-                    var showGroupError = !isValid  && ngModel.$blurred;
+                var formSubmittedFlag;
+                var valid;
 
-                    if (showGroupError) {
+                ctrl.onModelChanged(function(isValid, ngModel) {
+                    valid = isValid;
+                    showGroupError(!isValid && (formSubmittedFlag || ngModel.$blurred));
+                });
+
+                scope.$on('validation-ui.form-submitted', function(e, form) {
+                    formSubmittedFlag = true;
+                    showGroupError(!valid);
+                });
+
+                function showGroupError(show) {
+                    if (show) {
                         el.addClass('has-error');
                     } else {
                         el.removeClass('has-error');
                     }
-                });
+                }
             }
         };
     });
@@ -98,12 +108,12 @@
                         formSubmittedFlag = true;
                     }
 
-                    var controls = form.$error[showReason] || [];
-                    var shouldShowError = controls.indexOf(modelCtrl) !== -1;
+                    var controlsWithError = form.$error[showReason] || [];
+                    var shouldShowError = controlsWithError.indexOf(modelCtrl) !== -1;
                     updateVisibility(shouldShowError);
                 });
 
-                validationUiGroup.onValidityChanged(function(valid, ngModel) {
+                validationUiGroup.onModelChanged(function(valid, ngModel) {
                     isValid = valid;
                     modelCtrl = ngModel;
 
@@ -112,7 +122,9 @@
                         formSubmittedFlag = false;
                     }
 
-                    updateVisibility(formSubmittedFlag && valid === false);
+                    var invalidBecauseOfThisError = ngModel.$error[showReason];
+
+                    updateVisibility(formSubmittedFlag && !valid && invalidBecauseOfThisError);
                 });
 
                 function updateVisibility(shouldShow) {
