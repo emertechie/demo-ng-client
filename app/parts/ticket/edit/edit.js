@@ -14,7 +14,7 @@
         });
     }]);
 
-    module.controller('TicketCtrl', ['$scope', '$routeParams', '$location', 'ticketsDataStore', function($scope, $routeParams, $location, ticketsDataStore) {
+    module.controller('TicketCtrl', ['$scope', '$routeParams', '$location', '$window', 'ticketsDataStore', 'messages', function($scope, $routeParams, $location, $window, ticketsDataStore, messages) {
         $scope.isNewTicket = !$routeParams.number;
 
         if ($routeParams.number) {
@@ -22,7 +22,7 @@
                 .then(function(ticket) {
                     $scope.ticket = ticket;
                 }, function(err) {
-                    // todo: error handling
+                    messages.error(err);
                 });
         } else {
             $scope.ticket = ticketsDataStore.create();
@@ -36,26 +36,20 @@
             if ($scope.isNewTicket) {
                 ticketsDataStore.add($scope.ticket)
                     .then(function(added) {
-                        if (added) {
-                            var newPath = $location.path() + '/' + added.number;
-                            $location.path(newPath);
-                        } else {
-                            // todo: show error message
-                        }
+                        var newPath = $location.path() + '/' + added.number;
+                        $location.path(newPath);
+                        messages.success('Added ticket');
                     }, function(err) {
-                        // todo: show safe error message
+                        messages.error(err);
                     });
             } else {
                 ticketsDataStore.update($scope.ticket)
                     .then(function(updated) {
-                        if (updated) {
-                            $scope.ticket = updated;
-                            // todo: show success message
-                        } else {
-                            // todo: show error message
-                        }
+                        $scope.ticket = updated;
+                        $window.history.back();
+                        messages.success('Updated ticket');
                     }, function(err) {
-                        // todo: show safe error message
+                        messages.error(err);
                     });
             }
         };

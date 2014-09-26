@@ -1,0 +1,21 @@
+.part-messages {
+  position: relative;
+  z-index: 1;
+
+  .alert {
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    top: 5px;
+    opacity: 0.98;
+  }
+
+  .fade {
+    transition: 0.2s linear all;
+    opacity: 1;
+  }
+
+  .fade.ng-hide {
+    opacity: 0;
+  }
+}

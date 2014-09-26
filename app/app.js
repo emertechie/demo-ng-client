@@ -3,7 +3,11 @@
 
     var app = angular.module('demoApp', [
         'ngRoute',
-        'ticket'
+        'messages',
+        'auth',
+        'ticket',
+        'utils',
+        'wrappers'
     ]);
 
     app.config(['$routeProvider', function($routeProvider) {
