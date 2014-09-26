@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 
         watch: {
             sass: {
-                files: ['<%= sassDir %>/**/*.scss', '<%= appDir %>/parts/**/*.scss'],
+                files: ['<%= appDir %>/**/*.scss', '!<%= appDir %>/bower_components/**'],
                 tasks: ['sass:dev'],
                 options: {
                     spawn: false,
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
                 }
             },
             jshint: {
-                files: ['<%= appDir %>/*.js', '<%= appDir %>/parts/**/*.js'],
+                files: ['<%= appDir %>/**/*.js', '!<%= appDir %>/bower_components/**'],
                 tasks: ['jshint']
             },
             other: {
