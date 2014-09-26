@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var module = angular.module('data', []);
+    var module = angular.module('ticketData', []);
 
     var STORAGE_PREFIX = 'com.emertechie.demoapp/';
     var TICKETS_DATA_KEY = STORAGE_PREFIX + 'data';

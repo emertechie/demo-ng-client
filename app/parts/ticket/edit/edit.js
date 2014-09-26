@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var module = angular.module('ticketEdit', ['data', 'ngRoute', 'validation']);
+    var module = angular.module('ticketEdit', ['ticketData', 'ngRoute', 'validation']);
 
     module.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/ticket', {

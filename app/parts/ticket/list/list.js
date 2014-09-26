@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var module = angular.module('ticketList', ['data', 'ngRoute', 'ui.bootstrap']);
+    var module = angular.module('ticketList', ['ticketData', 'ngRoute', 'ui.bootstrap']);
 
     module.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/tickets', {

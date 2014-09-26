@@ -1,1 +1,1 @@
-var module = angular.module('ticket', ['ticketList', 'ticketEdit']);
+var module = angular.module('ticket', ['ticketData', 'ticketList', 'ticketEdit']);
