@@ -46,7 +46,6 @@
                 ticketsDataStore.update($scope.ticket)
                     .then(function(updated) {
                         $scope.ticket = updated;
-                        $window.history.back();
                         messages.success('Updated ticket');
                     }, function(err) {
                         messages.error(err);

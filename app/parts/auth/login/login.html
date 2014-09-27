@@ -8,13 +8,13 @@
             <p validation-ui-error="email" class="help-block">Please enter a valid email</p>
         </div>
         <div class="form-group" validation-ui-group>
-            <input type="password" class="form-control" ng-model="model.password" placeholder="Password" required validation-ui-model/>
+            <input type="password" class="form-control" ng-model="model.password" placeholder="Password" required validation-ui-model />
             <p validation-ui-error="required" class="help-block">Password is required</p>
         </div>
         <!--<label class="checkbox">
             <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
         </label>-->
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="loggingIn">Login</button>
     </form>
 </div>

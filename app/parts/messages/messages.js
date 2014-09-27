@@ -9,7 +9,7 @@
                 this.successObj = msg;
                 $timeout(function() {
                     this.successObj = null;
-                }.bind(this), timeout || 1000);
+                }.bind(this), timeout || 2000);
             },
             error: function(error, timeout) {
                 this.errorObj = error;

@@ -6,7 +6,8 @@
     module.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/login', {
             templateUrl: 'parts/auth/login/login.html',
-            controller: 'LoginCtrl'
+            controller: 'LoginCtrl',
+            needsAuthentication: false
         });
     }]);
 
@@ -16,21 +17,15 @@
         });
     }]);
 
-    module.controller('LoginCtrl', ['$scope', 'authService', '$location', 'messages', function($scope, authService, $location, messages) {
-        $scope.model = {};
+    module.controller('AuthCtrl', ['$scope', '$location', 'authData', 'authService', 'messages', function($scope, $location, authData, authService, messages) {
+        $scope.user = {};
 
-        $scope.login = function() {
-            if (!$scope.form.$valid) {
-                return;
-            }
-            
-            authService.login($scope.model.email, $scope.model.password).then(function() {
-                $location.path('/');
-                messages.success('Logged in');
-            }, function(err) {
-                messages.error(err);
-            });
-        };
+        $scope.$watch(function() {
+            var data = authData.get();
+            return data ? data.email : null;
+        }, function(email) {
+            $scope.user.email = email;
+        });
 
         $scope.logout = function() {
             authService.logout().then(function() {
@@ -38,6 +33,30 @@
                 messages.success('Logged out');
             }, function(err) {
                 messages.error(err);
+            });
+        };
+    }]);
+
+    module.controller('LoginCtrl', ['$scope', '$location', '$window', 'authService', 'messages', function($scope, $location, $window, authService, messages) {
+        $scope.model = {
+            // Just for testing obviously
+            email: 'foo@example.com',
+            password: '12345'
+        };
+
+        $scope.login = function() {
+            if (!$scope.form.$valid) {
+                return;
+            }
+
+            $scope.loggingIn = true;
+            authService.login($scope.model.email, $scope.model.password).then(function() {
+                $location.path('/');
+                messages.success('Logged in');
+            }, function(err) {
+                messages.error(err);
+            }).finally(function() {
+                $scope.loggingIn = false;
             });
         };
     }]);

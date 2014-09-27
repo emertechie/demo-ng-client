@@ -51,9 +51,11 @@
                     </form>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li>Logged in as <a href="#"></a></li>
-                <li><a href="#">Log out</a></li>
+            <ul class="nav navbar-nav navbar-right" ng-controller="AuthCtrl">
+                <li>
+                    <p class="navbar-text">{{user.email}}</p>
+                </li>
+                <li><a ng-click="logout()">Log out</a></li>
             </ul>
         </div>
     </div>
