@@ -1,3 +1,3 @@
 var module = angular.module('config', []);
 
-module.constant('authUrl', 'http://localhost:3000');
+module.constant('authUrl', 'http://stormy-waters-9258.herokuapp.com');
