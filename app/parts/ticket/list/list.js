@@ -10,7 +10,7 @@
         });
     }]);
 
-    module.controller('TicketListCtrl', ['$scope', '$location', 'ticketsDataStore', function($scope, $location, ticketsDataStore) {
+    module.controller('TicketListCtrl', ['$scope', '$location', 'ticketsDataStore', 'messages', function($scope, $location, ticketsDataStore, messages) {
         var PAGE_SIZE = 10;
 
         $scope.pageNumber = 1;
@@ -31,7 +31,7 @@
                     $scope.pageNumber = pageNumber;
                     $scope.order = order;
                 }, function(err) {
-                    // todo: error handling
+                    messages.error(err);
                 });
         }
 
