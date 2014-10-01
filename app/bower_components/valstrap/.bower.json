@@ -1,0 +1,35 @@
+{
+  "name": "valstrap",
+  "authors": [
+    "Andrew Smith <emertechie@gmail.com>"
+  ],
+  "description": "Angular validation directives for Bootstrap forms.",
+  "main": "lib/validation.js",
+  "keywords": [
+    "angular",
+    "validation",
+    "bootstrap"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.25"
+  },
+  "homepage": "https://github.com/emertechie/valstrap",
+  "_release": "ce8947c075",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ce8947c0750e878758d9ab13a145f0a82803dadd"
+  },
+  "_source": "git://github.com/emertechie/valstrap.git",
+  "_target": "*",
+  "_originalSource": "valstrap",
+  "_direct": true
+}

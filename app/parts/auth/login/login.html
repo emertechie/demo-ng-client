@@ -1,15 +1,15 @@
 <div class="part-login">
-    <form class="form-signin" name="form" novalidate validation-ui-form ng-submit="login()">
+    <form class="form-signin" name="form" novalidate val-form ng-submit="login()">
         <h3 class="form-signin-heading">Please login</h3>
 
-        <div class="form-group" validation-ui-group>
-            <input type="email" class="form-control" ng-model="model.email" placeholder="Email Address" required autofocus validation-ui-model />
-            <p validation-ui-error="required" class="help-block">Email is required</p>
-            <p validation-ui-error="email" class="help-block">Please enter a valid email</p>
+        <div class="form-group" val-group>
+            <input type="email" class="form-control" ng-model="model.email" placeholder="Email Address" required autofocus val-model />
+            <p val-error="required" class="help-block">Email is required</p>
+            <p val-error="email" class="help-block">Please enter a valid email</p>
         </div>
-        <div class="form-group" validation-ui-group>
-            <input type="password" class="form-control" ng-model="model.password" placeholder="Password" required validation-ui-model />
-            <p validation-ui-error="required" class="help-block">Password is required</p>
+        <div class="form-group" val-group>
+            <input type="password" class="form-control" ng-model="model.password" placeholder="Password" required val-model />
+            <p val-error="required" class="help-block">Password is required</p>
         </div>
         <!--<label class="checkbox">
             <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me

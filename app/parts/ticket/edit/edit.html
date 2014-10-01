@@ -1,6 +1,6 @@
 <div class="container part-ticket-edit">
     <div class="well">
-        <form class="form-horizontal" role="form" name="form" novalidate validation-ui-form ng-submit="save()">
+        <form class="form-horizontal" role="form" name="form" novalidate val-form ng-submit="save()">
             <fieldset>
                 <legend ng-cloak>
                     <span ng-show="!isNewTicket">Ticket: {{ticket.number}}</span>
@@ -17,22 +17,22 @@
                         </label>
                     </div>
                 </div>
-                <div class="form-group" validation-ui-group>
+                <div class="form-group" val-group>
                     <label for="inputTitle" class="col-lg-2 control-label">Title</label>
                     <div class="col-lg-8">
-                        <input type="text" name="title" ng-model="ticket.title" required ng-minlength="3" ng-maxlength="50" validation-ui-model
+                        <input type="text" name="title" ng-model="ticket.title" required ng-minlength="3" ng-maxlength="50" val-model
                                class="form-control" id="inputTitle" placeholder="Title" autocomplete="off">
 
-                        <p validation-ui-error="required" class="help-block">Title is required.</p>
-                        <p validation-ui-error="minlength" class="help-block">Please enter at least 3 characters.</p>
-                        <p validation-ui-error="maxlength" class="help-block">Title is too long.</p>
+                        <p val-error="required" class="help-block">Title is required.</p>
+                        <p val-error="minlength" class="help-block">Please enter at least 3 characters.</p>
+                        <p val-error="maxlength" class="help-block">Title is too long.</p>
                     </div>
                 </div>
-                <div class="form-group" validation-ui-group>
+                <div class="form-group" val-group>
                     <label for="inputDescription" class="col-lg-2 control-label">Description</label>
                     <div class="col-lg-8">
-                        <textarea class="form-control" ng-model="ticket.description" required rows="3" id="inputDescription" validation-ui-model></textarea>
-                        <p validation-ui-error class="help-block">Description is required.</p>
+                        <textarea class="form-control" ng-model="ticket.description" required rows="3" id="inputDescription" val-model></textarea>
+                        <p val-error class="help-block">Description is required.</p>
                     </div>
                 </div>
                 <div class="form-group">

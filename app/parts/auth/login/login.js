@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    var module = angular.module('login', ['authServices', 'validation']);
+    var module = angular.module('login', ['authServices', 'valstrap']);
 
     module.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/login', {
